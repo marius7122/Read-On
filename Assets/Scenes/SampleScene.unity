@@ -414,7 +414,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 100, y: -150}
-  m_SizeDelta: {x: 70, y: 100}
+  m_SizeDelta: {x: 80, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &400035264
 MonoBehaviour:
@@ -487,7 +487,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ef33b853a08a9bd4b920b21dcd491147, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3861b478121fb24f9a7a8a8e83b8684, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -875,9 +875,9 @@ MonoBehaviour:
   - {fileID: 400035264}
   - {fileID: 997604712}
   - {fileID: 740472696}
-  ppImg: {fileID: 0}
-  playImg: {fileID: 0}
-  pauseImg: {fileID: 0}
+  ppImg: {fileID: 400035265}
+  playImg: {fileID: 21300000, guid: d3861b478121fb24f9a7a8a8e83b8684, type: 3}
+  pauseImg: {fileID: 21300000, guid: ef33b853a08a9bd4b920b21dcd491147, type: 3}
   mode: day
   nightBackground: {r: 0, g: 0, b: 0, a: 1}
   nightText: {r: 1, g: 1, b: 1, a: 1}
