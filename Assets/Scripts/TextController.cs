@@ -12,7 +12,11 @@ public class TextController : MonoBehaviour {
     public progressControl progCtrl;    //for showing what percentage is read and changing color
     public speedSliderControler slc;    //for changing color
     public Image nightModeImg;          //for toggle night/day mode
-    public Button[] buttons;          //plus, minus, pause, play, rewind buttons
+    public Button[] buttons;            //plus, minus, pause/play, rewind buttons
+    public Image ppImg;                   //play/pause button image
+
+    public Sprite playImg;
+    public Sprite pauseImg;
 
 
     public string mode = "day";     //default mode is day
@@ -31,14 +35,14 @@ public class TextController : MonoBehaviour {
 
     public float nextWordTime;          //when current word will be displayed
 
-    public bool pause = false;
+    public bool pause = true;
      
 
 
 	void Start ()
     {
         //initialize testReader
-        testReader = new Reader(sampleText.text1);
+        testReader = new Reader(sampleText.text2);
 
         currentReder = testReader;
 
@@ -97,7 +101,12 @@ public class TextController : MonoBehaviour {
         pause = !pause;
 
         if (!pause)
+        {
             nextWordTime = Time.time + displayTime;
+            ppImg.sprite = pauseImg;
+        }
+        else
+            ppImg.sprite = playImg;
     }
 
     //this will be called from speed slider

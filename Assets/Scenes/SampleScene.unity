@@ -875,6 +875,9 @@ MonoBehaviour:
   - {fileID: 400035264}
   - {fileID: 997604712}
   - {fileID: 740472696}
+  ppImg: {fileID: 0}
+  playImg: {fileID: 0}
+  pauseImg: {fileID: 0}
   mode: day
   nightBackground: {r: 0, g: 0, b: 0, a: 1}
   nightText: {r: 1, g: 1, b: 1, a: 1}
@@ -886,10 +889,10 @@ MonoBehaviour:
   currentReder:
     text: 
     words: []
-  readSpeed: 100
+  readSpeed: 220
   displayTime: 0
   nextWordTime: 0
-  pause: 0
+  pause: 1
 --- !u!1 &997604710
 GameObject:
   m_ObjectHideFlags: 0
