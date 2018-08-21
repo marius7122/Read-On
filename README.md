@@ -5,3 +5,4 @@ Read On este o aplicatie care isi propune sa imbunatateasca viteza de citire si 
 ### Asseturi folosite:
 * TextMesh Pro
 * Color Picker
+* iTextSharp

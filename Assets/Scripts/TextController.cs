@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEditor;
+using System.IO;
+using System.Text;
 
 public class TextController : MonoBehaviour {
 
@@ -12,7 +15,7 @@ public class TextController : MonoBehaviour {
     public progressControl progCtrl;    //for showing what percentage is read and changing color
     public speedSliderControler slc;    //for changing color
     public Image nightModeImg;          //for toggle night/day mode
-    public Button[] buttons;            //plus, minus, pause/play, rewind buttons
+    public Button[] buttons;            //plus, minus, pause/play, rewind buttons, settings
     public Image ppImg;                   //play/pause button image
 
     public Sprite playImg;
@@ -27,32 +30,40 @@ public class TextController : MonoBehaviour {
     public Color dayBackground;
     public Color dayText;
 
-    public Reader testReader;           //reader for testing purpose
-    public Reader currentReder;         //used reader
+    public Reader currentReder;         //reader
 
     public int readSpeed = 220;     //read speed in WPS
     public float displayTime;       //display time for a word
-
-    public float nextWordTime;          //when current word will be displayed
+    public float nextWordTime;      //when current word will be displayed
 
     public bool pause = true;
-     
 
+    public string pathFileString;       //file with path to all pdf
+    
 
 	void Start ()
     {
-        //initialize testReader
-        testReader = new Reader(sampleText.text2);
-
-        currentReder = testReader;
+        pathFileString = Application.persistentDataPath + "/path.txt";
 
         displayTime = 60f / readSpeed;
+
+        string current_path = PlayerPrefs.GetString("current_path");
+
+        if(current_path == "example")
+        {
+            currentReder = new Reader(sampleText.text2);
+        }
+        else
+        {
+            int startPage = PlayerPrefs.GetInt(current_path + "-startPage");
+            currentReder = new Reader(current_path, startPage);
+        }
 
         //display first word
         displayNextWord();
     }
-	
-	void Update ()
+
+    void Update ()
     {
         //display words 
         if (!pause && Time.time >= nextWordTime)
@@ -74,6 +85,12 @@ public class TextController : MonoBehaviour {
 
         //update progress bar
         updateProgressBar();
+
+        //testing
+        /*Vector3 pos = Input.mousePosition;
+        int wordIndex = TMP_TextUtilities.FindIntersectingWord(testTxt, pos, Camera.main);
+        Debug.Log(wordIndex);
+        Debug.Log(pos);*/
     }
 
     //display next word
@@ -148,4 +165,21 @@ public class TextController : MonoBehaviour {
             changeColor(dayText, dayBackground);
         }
     }
+
+    public static void appendToFile(string path, string text)
+    {
+        if (!File.Exists(path))
+        {
+            using (StreamWriter sw = File.CreateText(path))
+            {
+            }
+        }
+
+
+        using (StreamWriter sw = File.AppendText(path))
+        {
+            sw.WriteLine(text);
+        }
+    }
+  
 }

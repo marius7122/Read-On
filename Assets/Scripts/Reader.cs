@@ -1,32 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text;
 
 [System.Serializable]
 public class Reader
 {
+    string path;                            //path to file
     public string text;
     public string[] words;
-    int currWordIndex;              //index of current word
-    const int rewindWords = 5;      //how many words to go back in rewind function
+    int currWordIndex;                     //index of current word
+    int startPage = 1;                     //start from that page
 
+    static int rewindWords = 5;      //how many words to go back in rewind function
+
+
+    bool isCharacter(char c)
+    {
+        if ("şŞţŢâÂăĂîÎ".IndexOf(c) != -1)
+            return true;
+
+        return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+    }
 
     //parse text in words
     void parseText()
     {
-        words = text.Split(' ');
+        //words = text.Split(' ');
 
-        /*List<string> _words = new List<string>();
+        List<string> _words = new List<string>();
         string _word = "";
-        string punctuationMarks = ".?!;:\"";
-        bool lastIsMark = false;
+        string punctuationMarks = ".?!;:\"\n";
+        //bool lastIsMark = false;
+
+        char lastC = '\0';
 
         foreach(char c in text)
         {
-            if (c == ' ')
+            if (c == ' ' || c == '\n')
             {
-                lastIsMark = false;
-
                 if (_word != "")
                 {
                     _words.Add(_word);
@@ -38,26 +50,17 @@ public class Reader
 
             _word += c;
 
-            //c is a punctuation mark
-            if (punctuationMarks.IndexOf(c) != -1)
-                lastIsMark = true;
-            
-            //c is letter or digit
-            if((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))
+            if (_word.Length > 1 && isCharacter(c) && punctuationMarks.IndexOf(lastC) != -1)
             {
-                if(lastIsMark)
-                {
-                    _words.Add(_word);
-                    _word = "";
-                    lastIsMark = false;
-                }
-
-                _word += c;
+                _words.Add(_word);
+                _word = "";
             }
-            Debug.Log(_words);
-            Debug.Log(_word);
-        }*/
 
+
+            lastC = c;
+        }
+
+        words = _words.ToArray(); 
     }
 
 
@@ -73,6 +76,27 @@ public class Reader
     {
         text = _text;
         currWordIndex = 0;
+        parseText();
+    }
+    public Reader(string _path, int _startPage)
+    {
+        path = _path;
+        startPage = _startPage;
+
+        openPdf(path);
+    }
+
+    public void openPdf(string path)
+    {
+        iTextSharp.text.pdf.PdfReader pdfReader = new iTextSharp.text.pdf.PdfReader(path);
+        StringBuilder sb = new StringBuilder();
+
+        for(int i=startPage; i <= pdfReader.NumberOfPages; ++i)
+        {
+            sb.Append(iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(pdfReader, i));
+        }
+
+        text = sb.ToString();
         parseText();
     }
 
