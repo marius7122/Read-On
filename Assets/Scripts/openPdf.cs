@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using TMPro;
+using SFB;
 
 public class openPdf : MonoBehaviour
 {
@@ -23,10 +24,17 @@ public class openPdf : MonoBehaviour
 
         Debug.Log(pathFileString);
 
+        var extensions = new[] {
+            new SFB.ExtensionFilter("Text", "pdf"),
+        };
+        string path = StandaloneFileBrowser.OpenFilePanel("Deschideti fisierul PDF dorit", "", extensions, true)[0];
 
-        path = EditorUtility.OpenFilePanel("Alege fisierul PDF", "", "pdf");
+        Debug.Log(path);
+
+        //not working for build
+        /*path = EditorUtility.OpenFilePanel("Alege fisierul PDF", "", "pdf");
         while (path == "")
-            path = EditorUtility.OpenFilePanel("Alege un PDF valid", "", "pdf");
+            path = EditorUtility.OpenFilePanel("Alege un PDF valid", "", "pdf");*/
     }
 
     public void setTitle(string s)
