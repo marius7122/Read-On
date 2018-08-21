@@ -49,9 +49,13 @@ public class TextController : MonoBehaviour {
 
         string current_path = PlayerPrefs.GetString("current_path");
 
-        if(current_path == "example")
+        if(current_path == "example" || current_path == "")
         {
-            currentReder = new Reader(sampleText.text2);
+            currentReder = new Reader(sampleText.text2, "example");
+        }
+        else if(current_path == "daily_reading")
+        {
+            currentReder = new Reader(dailyReads.todayRead(), "daily read");
         }
         else
         {
@@ -85,12 +89,6 @@ public class TextController : MonoBehaviour {
 
         //update progress bar
         updateProgressBar();
-
-        //testing
-        /*Vector3 pos = Input.mousePosition;
-        int wordIndex = TMP_TextUtilities.FindIntersectingWord(testTxt, pos, Camera.main);
-        Debug.Log(wordIndex);
-        Debug.Log(pos);*/
     }
 
     //display next word
@@ -180,6 +178,11 @@ public class TextController : MonoBehaviour {
         {
             sw.WriteLine(text);
         }
+    }
+
+    public void goToMainMenu()
+    {
+        Application.LoadLevel(2);   //load main menu
     }
   
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using UnityEditor;
 
 [System.Serializable]
 public class Reader
@@ -72,10 +73,19 @@ public class Reader
         text = "";
         currWordIndex = 0;
     }
-    public Reader(string _text)
+    public Reader(string _text, string description)
     {
         text = _text;
-        currWordIndex = 0;
+
+        if(description == "example")
+            currWordIndex = 0;
+        else if(description == "daily read")
+        {
+            path = System.DateTime.Now.ToString("yyyy/MM/dd") + " read";
+
+            currWordIndex = PlayerPrefs.GetInt(path + "-lastIndex");
+        }
+
         parseText();
     }
     public Reader(string _path, int _startPage)
@@ -103,6 +113,8 @@ public class Reader
     //get next word
     public string getNextWord()
     {
+        PlayerPrefs.SetInt(path + "-lastIndex", currWordIndex);
+
         if (currWordIndex < words.Length)
             return words[currWordIndex++];
         else
