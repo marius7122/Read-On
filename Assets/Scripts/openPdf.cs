@@ -23,7 +23,6 @@ public class openPdf : MonoBehaviour
 
         Debug.Log(pathFileString);
 
-        using(ofd )
 
         path = EditorUtility.OpenFilePanel("Alege fisierul PDF", "", "pdf");
         while (path == "")
