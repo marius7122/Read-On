@@ -30,7 +30,10 @@ public class openPdf : MonoBehaviour
 
         //if user canceled file dialog go back to main menu
         if (paths.Length == 0)
+        {
             Application.LoadLevel(0);
+            return;
+        }
 
         path = paths[0];
 
