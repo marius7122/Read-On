@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 using TMPro;
-
 
 public class openPdf : MonoBehaviour
 {
@@ -21,15 +18,16 @@ public class openPdf : MonoBehaviour
 
     void Start()
     {
+
         pathFileString = Application.persistentDataPath + "/path.txt";
+
+        Debug.Log(pathFileString);
+
+        using(ofd )
 
         path = EditorUtility.OpenFilePanel("Alege fisierul PDF", "", "pdf");
         while (path == "")
             path = EditorUtility.OpenFilePanel("Alege un PDF valid", "", "pdf");
-
-        //if path is first time added
-        if(PlayerPrefs.GetString(path+"-title").Length == 0)
-            TextController.appendToFile(pathFileString, path);
     }
 
     public void setTitle(string s)
@@ -68,10 +66,19 @@ public class openPdf : MonoBehaviour
             return;
         }
 
+        //if path is first time added
+        if (PlayerPrefs.GetString(path + "-title").Length == 0)
+            TextController.appendToFile(pathFileString, path);
+
         PlayerPrefs.SetString(path + "-title", title);
         PlayerPrefs.SetInt(path + "-startPage", startFromPage);
         PlayerPrefs.SetString("current_path", path);
 
         Application.LoadLevel(1);   //load reading scene
+    }
+
+    public void goToMainMenu()
+    {
+        Application.LoadLevel(2);
     }
 }

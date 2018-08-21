@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEditor;
 using System.IO;
-using System.Text;
 
 public class TextController : MonoBehaviour {
 

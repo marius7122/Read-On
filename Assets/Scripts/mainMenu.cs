@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class mainMenu : MonoBehaviour {
 
 	public void read()
     {
-
+        Application.LoadLevel(3);       //select scene
     }
 
     public void open()
@@ -22,7 +20,7 @@ public class mainMenu : MonoBehaviour {
 
     public void info()
     {
-        //nothing for now :(
+        //not ready  :(
     }
 
     public void close()

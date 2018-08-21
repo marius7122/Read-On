@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
-using UnityEditor;
 
 [System.Serializable]
 public class Reader
@@ -82,9 +80,9 @@ public class Reader
         else if(description == "daily read")
         {
             path = System.DateTime.Now.ToString("yyyy/MM/dd") + " read";
-
             currWordIndex = PlayerPrefs.GetInt(path + "-lastIndex");
         }
+
 
         parseText();
     }
@@ -92,6 +90,7 @@ public class Reader
     {
         path = _path;
         startPage = _startPage;
+        currWordIndex = PlayerPrefs.GetInt(path + "-lastIndex");
 
         openPdf(path);
     }
