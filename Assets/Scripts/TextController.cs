@@ -176,9 +176,26 @@ public class TextController : MonoBehaviour {
         }
     }
 
+    //return true if found
+    public static bool searchInFile(string path, string line)
+    {
+        if(!File.Exists(path))
+            return false;
+
+        string[] lines = File.ReadAllLines(path);
+
+        foreach(string _line in lines)
+        {
+            if (line == _line)
+                return true;
+        }
+
+        return false;
+    }
+
     public void goToMainMenu()
     {
-        Application.LoadLevel(2);   //load main menu
+        Application.LoadLevel(0);   //load main menu
     }
   
 }

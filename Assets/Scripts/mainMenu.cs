@@ -4,12 +4,12 @@ public class mainMenu : MonoBehaviour {
 
 	public void read()
     {
-        Application.LoadLevel(3);       //select scene
+        Application.LoadLevel(2);       //select scene
     }
 
     public void open()
     {
-        Application.LoadLevel(0);       //scene with pdf open
+        Application.LoadLevel(3);       //scene with pdf open
     }
 
     public void dailyRead()

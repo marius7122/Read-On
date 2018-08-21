@@ -16,7 +16,11 @@ public class bookCardInstantiator : MonoBehaviour {
         {
             string title = PlayerPrefs.GetString(p + "-title");
 
-            Debug.Log(title);
+   
+            Debug.Log(title + " path :" + p);
+            p.Replace('\n', '\0');
+
+            Debug.Log(PlayerPrefs.GetString(p + "-title"));
 
             GameObject g = Instantiate(bookCardPrefab, gameObject.transform);   //instantiate as child
             g.GetComponent<bookCardScript>().path = p;                          //set path
@@ -27,6 +31,6 @@ public class bookCardInstantiator : MonoBehaviour {
     
     public void goToMainMenu()
     {
-        Application.LoadLevel(2);
+        Application.LoadLevel(0);
     }
 }

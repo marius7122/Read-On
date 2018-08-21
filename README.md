@@ -8,4 +8,4 @@ Read On este o aplicatie care isi propune sa imbunatateasca viteza de citire si 
 * iTextSharp
 * Unity Standalone File Browser
 
-## Din Cauza unui NuGet problematic nu pot face build la proiect momentan. In cazul in care nu rezolv problema o solutie pentru a testa aplicatia este de a o rula de la mine de pe PC prin teamviewer sau sa o prezint intr-un videoclip.
+### Windows Build link: https://drive.google.com/file/d/18qtNUPSX2EGrTGTrmolZpYriQGZfF0in/view?usp=sharing ; pentru test in arhiva se afla si un fisier pdf

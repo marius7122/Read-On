@@ -19,7 +19,6 @@ public class openPdf : MonoBehaviour
 
     void Start()
     {
-
         pathFileString = Application.persistentDataPath + "/path.txt";
 
         Debug.Log(pathFileString);
@@ -27,14 +26,15 @@ public class openPdf : MonoBehaviour
         var extensions = new[] {
             new SFB.ExtensionFilter("Text", "pdf"),
         };
-        string path = StandaloneFileBrowser.OpenFilePanel("Deschideti fisierul PDF dorit", "", extensions, true)[0];
+        string[] paths = StandaloneFileBrowser.OpenFilePanel("Deschideti fisierul PDF dorit", "", extensions, true);
+
+        //if user canceled file dialog go back to main menu
+        if (paths.Length == 0)
+            Application.LoadLevel(0);
+
+        path = paths[0];
 
         Debug.Log(path);
-
-        //not working for build
-        /*path = EditorUtility.OpenFilePanel("Alege fisierul PDF", "", "pdf");
-        while (path == "")
-            path = EditorUtility.OpenFilePanel("Alege un PDF valid", "", "pdf");*/
     }
 
     public void setTitle(string s)
@@ -74,8 +74,10 @@ public class openPdf : MonoBehaviour
         }
 
         //if path is first time added
-        if (PlayerPrefs.GetString(path + "-title").Length == 0)
+        if (!TextController.searchInFile(pathFileString, path))
+        {
             TextController.appendToFile(pathFileString, path);
+        }
 
         PlayerPrefs.SetString(path + "-title", title);
         PlayerPrefs.SetInt(path + "-startPage", startFromPage);
@@ -86,6 +88,6 @@ public class openPdf : MonoBehaviour
 
     public void goToMainMenu()
     {
-        Application.LoadLevel(2);
+        Application.LoadLevel(0);
     }
 }
