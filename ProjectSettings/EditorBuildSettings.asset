@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Open PDF scene.unity
     guid: 99fc0acdfd9d7d647bad842bd30be5b0
+  - enabled: 1
+    path: Assets/Scenes/File Dialog Window.unity
+    guid: cef1341b4fbb4ab47ab619d9a3c48a99
   m_configObjects: {}

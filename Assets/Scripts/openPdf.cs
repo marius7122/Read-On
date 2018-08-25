@@ -15,29 +15,25 @@ public class openPdf : MonoBehaviour
 
     public TextMeshProUGUI err;
 
+    public TMP_InputField titleInput;
+    public TextMeshProUGUI pathText;
+
 
 
     void Start()
     {
         pathFileString = Application.persistentDataPath + "/path.txt";
 
-        Debug.Log(pathFileString);
 
-        var extensions = new[] {
-            new SFB.ExtensionFilter("Text", "pdf"),
-        };
-        string[] paths = StandaloneFileBrowser.OpenFilePanel("Deschideti fisierul PDF dorit", "", extensions, true);
+        Debug.Log("searching for data from dialog window");
 
-        //if user canceled file dialog go back to main menu
-        if (paths.Length == 0)
-        {
-            Application.LoadLevel(0);
-            return;
-        }
+        title = PlayerPrefs.GetString("tempTitle");
+        path = PlayerPrefs.GetString("dialogWindowPath");
 
-        path = paths[0];
+        Debug.Log("data found: title=" + title + ";path=" + path);
 
-        Debug.Log(path);
+        titleInput.text = title;
+        pathText.text = path;
     }
 
     public void setTitle(string s)
@@ -51,8 +47,6 @@ public class openPdf : MonoBehaviour
 
     public void read()
     {
-        Debug.Log("in read");
-
         //check data
         if (title.Length < 2)
         {
@@ -60,7 +54,11 @@ public class openPdf : MonoBehaviour
             return;
         }
 
-        Debug.Log("done checking");
+        if (path.Length == 0)
+        {
+            err.text = "Alegeti un fisier PDF";
+            return;
+        }
 
 
         //if path is first time added
@@ -69,19 +67,28 @@ public class openPdf : MonoBehaviour
             TextController.appendToFile(pathFileString, path);
         }
 
-        Debug.Log("done searching for file");
 
         PlayerPrefs.SetString(path + "-title", title);
         PlayerPrefs.SetInt(path + "-startPage", startFromPage);
         PlayerPrefs.SetString("current_path", path);
 
-        Debug.Log("loading read scene");
+        PlayerPrefs.SetString("tempTitle", "");
+        PlayerPrefs.SetString("dialogWindowPath", "");
 
         Application.LoadLevel(1);   //load reading scene
     }
 
     public void goToMainMenu()
     {
+        PlayerPrefs.SetString("tempTitle", "");
         Application.LoadLevel(0);
+    }
+
+    public void openFileDialog()
+    {
+        PlayerPrefs.SetString("tempTitle", title);
+
+        PlayerPrefs.SetInt("returnToScene", Application.loadedLevel);
+        Application.LoadLevel(4);   //file dialog window
     }
 }
