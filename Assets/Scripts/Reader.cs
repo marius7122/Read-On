@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using System.IO;
 
 [System.Serializable]
 public class Reader
@@ -8,10 +9,13 @@ public class Reader
     string path;                            //path to file
     public string text;
     public string[] words;
-    int currWordIndex;                     //index of current word
-    int startPage = 1;                     //start from that page
+    List<string> words_l = new List<string>();
+    int wordsNr = 0;                        //words number
+    int currWordIndex;                      //index of current word
+    // int startPage = 1;                      //start from that page
+    int[] wordsTillPage;                    //wordsTillPage[i] = how many words were up to page i
 
-    static int rewindWords = 5;      //how many words to go back in rewind function
+    static int rewindWords = 5;             //how many words to go back in rewind function
 
 
     bool isCharacter(char c)
@@ -25,12 +29,8 @@ public class Reader
     //parse text in words
     void parseText()
     {
-        //words = text.Split(' ');
-
-        List<string> _words = new List<string>();
         string _word = "";
         string punctuationMarks = ".?!;:\"\n";
-        //bool lastIsMark = false;
 
         char lastC = '\0';
 
@@ -40,8 +40,9 @@ public class Reader
             {
                 if (_word != "")
                 {
-                    _words.Add(_word);
+                    words_l.Add(_word);
                     _word = "";
+                    ++wordsNr;
                 }
 
                 continue;
@@ -51,15 +52,37 @@ public class Reader
 
             if (_word.Length > 1 && isCharacter(c) && punctuationMarks.IndexOf(lastC) != -1)
             {
-                _words.Add(_word);
+                words_l.Add(_word);
                 _word = "";
+                ++wordsNr;
             }
-
 
             lastC = c;
         }
+    }
 
-        words = _words.ToArray(); 
+    //convert list of words in array and delete the list
+    void putWordsInArray()
+    {
+        words = words_l.ToArray();
+        words_l.Clear();
+    }
+
+    void putWordsInTxt()
+    {
+        int txtIndex = PlayerPrefs.GetInt("curr_txt_index");
+        string path = Application.persistentDataPath + "/" + txtIndex.ToString() + ".txt";
+
+        using (StreamWriter sw = File.CreateText(path))
+        {
+            foreach(string word in words)
+            {
+                sw.Write(word + " ");
+            }
+        }
+
+        PlayerPrefs.SetInt(path + "-index", txtIndex);
+        PlayerPrefs.SetInt("curr_txt_index", txtIndex + 1);
     }
 
 
@@ -83,30 +106,59 @@ public class Reader
             currWordIndex = PlayerPrefs.GetInt(path + "-lastIndex");
         }
 
-
         parseText();
+        putWordsInArray();
     }
-    public Reader(string _path, int _startPage)
+    public Reader(string _path)
     {
         path = _path;
-        startPage = _startPage;
-        currWordIndex = PlayerPrefs.GetInt(path + "-lastIndex");
+        if (PlayerPrefs.GetInt(path + "-wasAdded") == 0)
+        {
+            currWordIndex = 0;
+            openPdf(path);
+            PlayerPrefs.SetInt(path + "-wasAdded", 1);
+        }
+        else
+        {
+            currWordIndex = PlayerPrefs.GetInt(path + "-lastIndex");
 
-        openPdf(path);
+            string txtPath = Application.persistentDataPath + "/" + PlayerPrefs.GetInt(path + "-index").ToString() + ".txt";
+
+            openTxt(txtPath);
+        }
     }
 
+    //open and parse pdf
     public void openPdf(string path)
     {
+        Debug.Log("in open pdf");
+
         iTextSharp.text.pdf.PdfReader pdfReader = new iTextSharp.text.pdf.PdfReader(path);
         StringBuilder sb = new StringBuilder();
 
-        for(int i=startPage; i <= pdfReader.NumberOfPages; ++i)
+        wordsTillPage = new int[pdfReader.NumberOfPages + 2];
+
+        for (int i=1; i <= pdfReader.NumberOfPages; ++i)
         {
-            sb.Append(iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(pdfReader, i));
+            text = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(pdfReader, i);
+            parseText();
+            wordsTillPage[i + 1] = wordsNr;
         }
 
-        text = sb.ToString();
-        parseText();
+        putWordsInArray();
+        putWordsInTxt();
+    }
+
+    //open and parse txt
+    public void openTxt(string path)
+    {
+        Debug.Log("open txt " + path);
+
+        text = File.ReadAllText(path);
+
+        Debug.Log(text);
+
+        words = text.Split(' ');
     }
 
     //get next word
@@ -117,7 +169,7 @@ public class Reader
         if (currWordIndex < words.Length)
             return words[currWordIndex++];
         else
-            return "Ai terminat de citit!";     //replace in relase
+            return "Ai terminat de citit!";
     }
 
     //go back some words

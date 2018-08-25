@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 
 public class mainMenu : MonoBehaviour {
 
@@ -26,5 +27,17 @@ public class mainMenu : MonoBehaviour {
     public void close()
     {
         Application.Quit();
+    }
+
+    public void resetPlayerPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+
+        File.WriteAllText(Application.persistentDataPath + "/path.txt", string.Empty);
+    }
+
+    public void logPersistentPath()
+    {
+        Debug.Log(Application.persistentDataPath);
     }
 }

@@ -55,8 +55,8 @@ public class TextController : MonoBehaviour {
         }
         else
         {
-            int startPage = PlayerPrefs.GetInt(current_path + "-startPage");
-            currentReder = new Reader(current_path, startPage);
+            // int startPage = PlayerPrefs.GetInt(current_path + "-startPage");
+            currentReder = new Reader(current_path);
         }
 
         //display first word

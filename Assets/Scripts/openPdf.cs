@@ -51,30 +51,17 @@ public class openPdf : MonoBehaviour
 
     public void read()
     {
+        Debug.Log("in read");
+
         //check data
         if (title.Length < 2)
         {
             err.text = "Titlul este prea scurt";
             return;
         }
-        if (!int.TryParse(startFromPageStr, out startFromPage))
-        {
-            err.text = "Pagina de inceput trebuie sa fie un numar";
-            return;
-        }
 
-        if(startFromPage < 1)
-        {
-            err.text = "Prima pagina este numerotata cu 1";
-            return;
-        }
+        Debug.Log("done checking");
 
-        iTextSharp.text.pdf.PdfReader pdfReader = new iTextSharp.text.pdf.PdfReader(path);
-        if (pdfReader.NumberOfPages < startFromPage)
-        {
-            err.text = "Fisierul PDF are numai " + pdfReader.NumberOfPages + " pagini";
-            return;
-        }
 
         //if path is first time added
         if (!TextController.searchInFile(pathFileString, path))
@@ -82,9 +69,13 @@ public class openPdf : MonoBehaviour
             TextController.appendToFile(pathFileString, path);
         }
 
+        Debug.Log("done searching for file");
+
         PlayerPrefs.SetString(path + "-title", title);
         PlayerPrefs.SetInt(path + "-startPage", startFromPage);
         PlayerPrefs.SetString("current_path", path);
+
+        Debug.Log("loading read scene");
 
         Application.LoadLevel(1);   //load reading scene
     }
