@@ -390,8 +390,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 140.43, y: 0}
-  m_SizeDelta: {x: 423.15, y: 50}
+  m_AnchoredPosition: {x: 140.43, y: 3.45}
+  m_SizeDelta: {x: 423.1, y: 117.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &453178021
 MonoBehaviour:
@@ -439,14 +439,14 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 513
   m_isAlignmentEnumConverted: 1
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -588,7 +588,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 513810726}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1938066376}
+        m_MethodName: openFileDialog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &513810726
@@ -1907,7 +1918,7 @@ MonoBehaviour:
   startFromPageStr: 1
   err: {fileID: 1329923680}
   titleInput: {fileID: 343480985}
-  pathInput: {fileID: 0}
+  pathText: {fileID: 453178021}
 --- !u!1 &1938555520
 GameObject:
   m_ObjectHideFlags: 0
