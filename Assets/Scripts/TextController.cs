@@ -197,5 +197,14 @@ public class TextController : MonoBehaviour {
     {
         Application.LoadLevel(0);   //load main menu
     }
+
+    public void openSelectOnText()
+    {
+        PlayerPrefs.SetInt("returnToScene", Application.loadedLevel);
+        PlayerPrefs.SetInt("txtIndex", currentReder.getFileIndex());
+        PlayerPrefs.SetString("path", currentReder.getPath());
+
+        Application.LoadLevel(5);
+    }
   
 }

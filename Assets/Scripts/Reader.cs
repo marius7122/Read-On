@@ -26,6 +26,16 @@ public class Reader
         return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
     }
 
+    bool containLetters(string s)
+    {
+        foreach(char c in s)
+        {
+            if (isCharacter(c))
+                return true;
+        }
+        return false;
+    }
+
     //parse text in words
     void parseText()
     {
@@ -40,9 +50,13 @@ public class Reader
             {
                 if (_word != "")
                 {
-                    words_l.Add(_word);
+                    if (containLetters(_word))
+                    {
+                        Debug.Log("ok");
+                        words_l.Add(_word);
+                        ++wordsNr;
+                    }
                     _word = "";
-                    ++wordsNr;
                 }
 
                 continue;
@@ -52,12 +66,27 @@ public class Reader
 
             if (_word.Length > 1 && isCharacter(c) && punctuationMarks.IndexOf(lastC) != -1)
             {
-                words_l.Add(_word);
+                if (containLetters(_word))
+                {
+                    Debug.Log("ok");
+                    words_l.Add(_word);
+                    ++wordsNr;
+                }
                 _word = "";
-                ++wordsNr;
             }
 
             lastC = c;
+        }
+
+        if (_word.Length > 0)
+        {
+            if (containLetters(_word))
+            {
+                Debug.Log("ok");
+                words_l.Add(_word);
+                ++wordsNr;
+            }
+            _word = "";
         }
     }
 
@@ -81,8 +110,23 @@ public class Reader
             }
         }
 
+        putPageIndexInTxt(txtIndex);
+
         PlayerPrefs.SetInt(path + "-index", txtIndex);
         PlayerPrefs.SetInt("curr_txt_index", txtIndex + 1);
+    }
+
+    void putPageIndexInTxt(int txtIndex)
+    {
+        string path = Application.persistentDataPath + "/" + txtIndex.ToString() + "-pages" + ".txt";
+
+        using (StreamWriter sw = File.CreateText(path))
+        {
+            for(int i = 2; i < wordsTillPage.Length; ++i)
+            {
+                sw.Write(wordsTillPage[i].ToString() + " ");
+            }
+        }
     }
 
 
@@ -156,8 +200,6 @@ public class Reader
 
         text = File.ReadAllText(path);
 
-        Debug.Log(text);
-
         words = text.Split(' ');
     }
 
@@ -187,4 +229,13 @@ public class Reader
         return (currWordIndex + 1f) / words.Length * 100;
     }
 
+    public int getFileIndex()
+    {
+        return PlayerPrefs.GetInt(path + "-index");
+    }
+
+    public string getPath()
+    {
+        return path;
+    }
 }

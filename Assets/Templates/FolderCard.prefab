@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 224986891746349200}
   - component: {fileID: 222592971570817540}
   - component: {fileID: 114769143357972044}
-  - component: {fileID: 114812224232641610}
   - component: {fileID: 114461178640506418}
+  - component: {fileID: 114812224232641610}
   m_Layer: 5
   m_Name: FolderCard
   m_TagString: Untagged
@@ -184,11 +184,11 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4278190080
   m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSizeBase: 18
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 45
   m_fontStyle: 0
   m_textAlignment: 514
   m_isAlignmentEnumConverted: 1
@@ -298,6 +298,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -51.3}
+  m_AnchoredPosition: {x: 360, y: -163.9}
   m_SizeDelta: {x: 720, y: 102.6}
   m_Pivot: {x: 0.5, y: 0.5}
