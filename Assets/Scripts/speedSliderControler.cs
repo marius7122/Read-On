@@ -13,7 +13,7 @@ public class speedSliderControler : MonoBehaviour {
     public Image sliderFill;
 
 
-    void Start()
+    void Awake()
     {
         slider = transform.GetChild(0).GetComponent<Slider>();
         text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();

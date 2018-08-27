@@ -14,6 +14,7 @@ public class Reader
     int currWordIndex;                      //index of current word
     // int startPage = 1;                      //start from that page
     int[] wordsTillPage;                    //wordsTillPage[i] = how many words were up to page i
+    int wordsWithPoint = 0;
 
     static int rewindWords = 5;             //how many words to go back in rewind function
 
@@ -52,7 +53,6 @@ public class Reader
                 {
                     if (containLetters(_word))
                     {
-                        Debug.Log("ok");
                         words_l.Add(_word);
                         ++wordsNr;
                     }
@@ -94,6 +94,14 @@ public class Reader
     void putWordsInArray()
     {
         words = words_l.ToArray();
+
+        //count words that end with point
+        foreach(string word in words)
+        {
+            if(word.Contains("."))
+                ++wordsWithPoint;
+        }
+
         words_l.Clear();
     }
 
@@ -233,9 +241,16 @@ public class Reader
     {
         return PlayerPrefs.GetInt(path + "-index");
     }
-
     public string getPath()
     {
         return path;
+    }
+    public int getWordsWithPoint()
+    {
+        return wordsWithPoint;
+    }
+    public int wordsNumber()
+    {
+        return words.Length;
     }
 }

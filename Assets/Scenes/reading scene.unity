@@ -1106,6 +1106,7 @@ MonoBehaviour:
   - {fileID: 255110830}
   - {fileID: 1710760845}
   - {fileID: 1157965879}
+  selectOnTextButton: {fileID: 1157965875}
   ppImg: {fileID: 400035265}
   playImg: {fileID: 21300000, guid: d3861b478121fb24f9a7a8a8e83b8684, type: 3}
   pauseImg: {fileID: 21300000, guid: ef33b853a08a9bd4b920b21dcd491147, type: 3}
@@ -1120,6 +1121,7 @@ MonoBehaviour:
   readSpeed: 220
   displayTime: 0
   nextWordTime: 0
+  pointDelay: 0
   pause: 1
   pathFileString: 
 --- !u!114 &997604712 stripped

@@ -12,7 +12,8 @@ public class TextController : MonoBehaviour {
     public speedSliderControler slc;    //for changing color
     public Image nightModeImg;          //for toggle night/day mode
     public Button[] buttons;            //plus, minus, pause/play, rewind buttons, settings
-    public Image ppImg;                   //play/pause button image
+    public GameObject selectOnTextButton;
+    public Image ppImg;                 //play/pause button image
 
     public Sprite playImg;
     public Sprite pauseImg;
@@ -28,9 +29,10 @@ public class TextController : MonoBehaviour {
 
     public Reader currentReder;         //reader
 
-    public int readSpeed = 220;     //read speed in WPS
+    public int readSpeed;     //read speed in WPS
     public float displayTime;       //display time for a word
     public float nextWordTime;      //when current word will be displayed
+    public float pointDelay;        //amount of delay for a point         
 
     public bool pause = true;
 
@@ -41,17 +43,31 @@ public class TextController : MonoBehaviour {
     {
         pathFileString = Application.persistentDataPath + "/path.txt";
 
-        displayTime = 60f / readSpeed;
+        readSpeed = PlayerPrefs.GetInt("readSpeed");
+        if(readSpeed == 0)
+            readSpeed = 200;
+        slc.setSpeed((float)readSpeed);
+        
+        mode = PlayerPrefs.GetString("readMode");
+        if(mode == "")
+            mode = "day";
+        if(mode == "night")
+            changeColor(nightText, nightBackground);
+
+        displayTime = 60f / readSpeed;  
+        pointDelay = displayTime / 4;
 
         string current_path = PlayerPrefs.GetString("current_path");
 
         if(current_path == "example" || current_path == "")
         {
             currentReder = new Reader(sampleText.text2, "example");
+            selectOnTextButton.SetActive(false);
         }
         else if(current_path == "daily_reading")
         {
             currentReder = new Reader(dailyReads.todayRead(), "daily read");
+            selectOnTextButton.SetActive(false);
         }
         else
         {
@@ -67,8 +83,10 @@ public class TextController : MonoBehaviour {
     {
         //display words 
         if (!pause && Time.time >= nextWordTime)
+        {
             displayNextWord();
-        
+        }
+
         //rewind
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -92,6 +110,8 @@ public class TextController : MonoBehaviour {
     {
         centerText.text = currentReder.getNextWord();
         nextWordTime = Time.time + displayTime;
+        if(centerText.text.Contains("."))
+            nextWordTime += pointDelay;
     }
 
     //update progress bar
@@ -195,6 +215,11 @@ public class TextController : MonoBehaviour {
 
     public void goToMainMenu()
     {
+        //update playerPrefs
+        PlayerPrefs.SetString("readMode", mode);
+        PlayerPrefs.SetInt("readSpeed", slc.getSpeed());
+
+
         Application.LoadLevel(0);   //load main menu
     }
 
@@ -206,5 +231,5 @@ public class TextController : MonoBehaviour {
 
         Application.LoadLevel(5);
     }
-  
+
 }
