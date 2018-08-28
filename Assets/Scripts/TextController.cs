@@ -45,7 +45,7 @@ public class TextController : MonoBehaviour {
 
         readSpeed = PlayerPrefs.GetInt("readSpeed");
         if(readSpeed == 0)
-            readSpeed = 200;
+            readSpeed = 20;
         slc.setSpeed((float)readSpeed);
         
         mode = PlayerPrefs.GetString("readMode");
